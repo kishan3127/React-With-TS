@@ -1,0 +1,553 @@
+@import "./_variables";
+@import "./functions";
+
+/*
+------ MEDIA QUERIES ------
+*/
+
+// Media queries are created in a way to follow Mobile first approach
+@mixin tablet-portrait {
+  @media only screen and (min-width: #{$tablet-portrait}px) {
+    @content;
+  }
+}
+
+@mixin tablet-landscape {
+  @media only screen and (min-width: #{$tablet-landscape}px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: #{$desktop}px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media only screen and (max-width: #{$desktop}px) {
+    @content;
+  }
+}
+
+@mixin screen1700Plus {
+  //1640px
+  @media only screen and (min-width: 1700px) {
+    @content;
+  }
+}
+
+@mixin screen1480-1699 {
+  //1460px
+  @media only screen and (min-width: 1480px) and (max-width: 1699px) {
+    @content;
+  }
+}
+
+@mixin screen1200-1479 {
+  //1190px
+  @media only screen and (min-width: 1200px) and (max-width: 1479px) {
+    @content;
+  }
+}
+
+@mixin screen992-1199 {
+  //960px
+  @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin screen768-991 {
+  //720px
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+    @content;
+  }
+}
+
+@mixin screen290-767 {
+  //100%
+  @media only screen and (min-width: 290px) and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin component-separator {
+  margin-bottom: 50px;
+  @include desktop {
+    margin-bottom: 100px;
+  }
+}
+
+@mixin container() {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@mixin custom-container() {
+  @include screen1700Plus() {
+    max-width: 1640px;
+  }
+  @include screen1480-1699 {
+    max-width: 1460px;
+  }
+  @include screen1200-1479 {
+    max-width: 1190px;
+  }
+  @include screen992-1199 {
+    max-width: 960px;
+  }
+  @include screen768-991 {
+    max-width: 720px;
+  }
+  @include screen290-767 {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@mixin font-size($font-size) {
+  font-size: convertToRem($font-size) * 1rem;
+}
+
+@mixin pseudo-element($display: block, $pos: absolute, $content: "") {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+@mixin spacing-style($side, $val, $padding: true) {
+  $spacing-type: if($padding == true, padding, margin);
+  #{$spacing-type}-#{$side}: $val + "px";
+}
+
+@mixin cover-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+@mixin flexbox {
+  display: -webkit-box; // old
+  display: -moz-box; // old
+  display: -ms-flexbox; // IE
+  display: -webkit-flex; // new
+  display: flex; // new
+}
+
+@mixin flexbox-inline {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+@mixin flex-column {
+  @include flexbox();
+  flex-direction: column;
+}
+
+@mixin flex-center {
+  @include flexbox();
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-center-column {
+  @include flex-center;
+  flex-direction: column;
+}
+
+@mixin flex-vertical-column {
+  @include flexbox();
+  @include flex-orientVertical-directionNormal();
+  @include flex-direction-column();
+}
+
+@mixin box-sizing($type) {
+  -webkit-box-sizing: $type;
+  -moz-box-sizing: $type;
+  box-sizing: $type;
+}
+
+@mixin flexboxmodel($alignItems, $justifyContent, $direction: "row") {
+  @include flexbox();
+  align-items: $alignItems;
+  justify-content: $justifyContent;
+  flex-direction: $direction;
+}
+
+@mixin flex-wrap {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+@mixin flex-nowrap {
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+@mixin flex-align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+
+@mixin flex-align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+@mixin flex-align-stretch {
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+@mixin flex-align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+
+@mixin flex-justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+@mixin flex-justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+@mixin flex-justify-space-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+@mixin flex-justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+@mixin flex-direction-row {
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+@mixin flex-direction-column {
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+@mixin flex-orientHorizontal-directionNormal {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+}
+
+@mixin flex-orientVertical-directionNormal {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+}
+
+@mixin flex-wrap-start-row {
+  @include flexbox();
+  @include flex-wrap();
+  @include flex-align-start();
+  @include flex-justify-start();
+  @include flex-orientHorizontal-directionNormal();
+  @include flex-direction-row();
+}
+
+@mixin flex-nowrap-start-row {
+  @include flexbox();
+  @include flex-align-start();
+  @include flex-nowrap();
+  @include flex-orientHorizontal-directionNormal();
+  @include flex-direction-row();
+}
+
+@mixin flex-wrap-center-horizontal-row {
+  @include flexbox();
+  @include flex-wrap();
+  @include flex-align-start();
+  @include flex-justify-center();
+  @include flex-orientHorizontal-directionNormal();
+  @include flex-direction-row();
+}
+
+@mixin flex-wrap-center-vertical-column {
+  @include flexbox();
+  @include flex-wrap();
+  @include flex-align-center();
+  @include flex-justify-center();
+  @include flex-direction-column();
+}
+
+@mixin flex-wrap-alignCenter-justifyCenter-horizontal-row {
+  @include flexbox();
+  @include flex-wrap();
+  @include flex-align-center();
+  @include flex-justify-center();
+  @include flex-orientHorizontal-directionNormal();
+  @include flex-direction-row();
+}
+
+@mixin default-prop {
+  background-color: transparent;
+  border: none;
+  outline: none !important;
+  text-decoration: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  -webkit-transition: 0s !important;
+  transition: 0s !important;
+}
+
+@mixin tags {
+  width: 100%;
+  padding: 10px 0 0 0;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  .tag {
+    font-family: "Conv_Kanit-Medium";
+    @include font-size(12);
+    background-color: $primary-grey;
+    color: $primary-navyBlue;
+    padding: 2.5px 5px;
+    margin: 0 5px 5px 0;
+    border-radius: 1000px;
+    cursor: pointer;
+  }
+  @include screen290-767 {
+    padding: 0 0 0 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+@mixin action-btn($icon: true) {
+  @include default-prop();
+  font-family: "Conv_Kanit-Regular";
+  width: 100%;
+  max-width: 120px;
+  @include flexbox-inline();
+  display: if($icon == true, inline-flex, inline-block);
+  padding: 5px 15px;
+  @include font-size(16);
+  color: $primary-navyBlue;
+  background-color: transparent;
+  border: 1px solid $primary-navyBlue;
+  border-radius: 1000px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  i {
+    @include font-size(24);
+    margin-left: 5px;
+    display: if($icon == true, inherit, none);
+  }
+  &:hover {
+    background-color: $primary-navyBlue;
+    color: $primary-white;
+  }
+  @include screen290-767 {
+    width: 100%;
+    max-width: inherit;
+    @include font-size(18);
+    padding: 10px 15px;
+    box-sizing: border-box;
+  }
+}
+
+@mixin highlight-underline($borderWidth: 90%) {
+  content: "";
+  width: $borderWidth;
+  height: 3px;
+  background-color: $primary-blue;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+@mixin inline-flex-wrap-start-horizontal-row {
+  @include flexbox-inline();
+  @include flex-wrap();
+  @include flex-align-start();
+  @include flex-justify-start();
+  @include flex-orientHorizontal-directionNormal();
+  @include flex-direction-row();
+}
+
+@mixin flex-wrap-start-horizontal-row {
+  @include flexbox();
+  @include flex-wrap();
+  @include flex-align-start();
+  @include flex-justify-start();
+  @include flex-orientHorizontal-directionNormal();
+  @include flex-direction-row();
+}
+
+@mixin heading-font-weight-line-height {
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+@mixin paragraph-font-weight-line-height {
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+@mixin background {
+  background-position: center;
+  background-size: cover;
+}
+
+@mixin image {
+  max-width: 100%;
+  vertical-align: middle;
+  border-style: none;
+}
+
+@mixin elementMixin {
+  .title {
+    @include font-size(32);
+    line-height: 48px;
+    margin: 0 0 10px 0;
+    color: $primary-navyBlue;
+    @include screen290-767 {
+      margin: 0 0 5px 0;
+    }
+  }
+  .title1 {
+    @include font-size(30);
+    color: $primary-navyBlue;
+    margin: 0 0 10px 0;
+    @include screen290-767 {
+      margin: 0 0 5px 0;
+    }
+  }
+  .title2 {
+    color: $secondary-black;
+    @include font-size(18);
+    margin: 0 0 20px 0;
+    position: relative;
+    width: max-content;
+    &::before {
+      content: "";
+      position: absolute;
+      background-color: $primary-blue;
+      width: 90%;
+      height: 3px;
+      bottom: -10px;
+      left: 0;
+      right: auto;
+    }
+  }
+  .title3 {
+    @include font-size(18);
+    line-height: 24px;
+    padding-bottom: 15px;
+    color: $primary-navyBlue;
+    @include screen290-767 {
+      @include font-size(16);
+    }
+  }
+  .desc {
+    @include font-size(18);
+    line-height: 27px;
+    font-family: $pridiLight;
+    color: $secondary-black;
+  }
+  .blue-desc {
+    @include font-size(18);
+    font-family: $pridiLight;
+    color: $primary-navyBlue;
+  }
+  .btn {
+    a {
+      @include font-size(18);
+      cursor: pointer;
+      background-color: $primary-navyBlue;
+      color: $primary-white;
+      border-radius: 1000px;
+      padding: 8px 5px;
+      width: 160px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      border: 2px solid $primary-navyBlue;
+      text-decoration: none;
+      margin: 8px 0;
+      &:hover {
+        color: $primary-navyBlue;
+        background: $primary-white;
+      }
+    }
+  }
+  .link {
+    a {
+      cursor: pointer;
+      @include font-size(18);
+      color: $primary-navyBlue;
+      text-decoration: none;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: max-content;
+      margin: 8px 0;
+      &:hover {
+        i {
+          color: $primary-white;
+          &::after {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: $primary-navyBlue;
+            border-radius: 50%;
+            border: 1px solid $primary-white;
+            top: 0;
+            left: 0;
+            z-index: -1;
+          }
+        }
+      }
+      i {
+        @include font-size(25);
+        color: $primary-navyBlue;
+        margin: 0 10px 0 0;
+        position: relative;
+        z-index: 2;
+      }
+    }
+  }
+}
+
+@mixin icons-initialisation {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,8 @@
+@import "./index.scss";
+
+.read-the-docs {
+  color: $primary-darkGreen;
+  @include screen290-767 {
+    color: $primary-navyBlue;
+  }
+}
